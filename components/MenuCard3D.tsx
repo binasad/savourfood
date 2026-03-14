@@ -38,9 +38,10 @@ interface MenuCard3DProps {
   items: string[];
   frontColor?: string;
   backColor?: string;
+  onCardClick?: () => void;
 }
 
-export default function MenuCard3D({ name, image, items, frontColor = "#2a1530", backColor = "#f3dfac" }: MenuCard3DProps) {
+export default function MenuCard3D({ name, image, items, frontColor = "#2a1530", backColor = "#f3dfac", onCardClick }: MenuCard3DProps) {
   const [flipped, setFlipped] = useState(false);
 
   return (
@@ -48,7 +49,7 @@ export default function MenuCard3D({ name, image, items, frontColor = "#2a1530",
       className="h-[320px] md:h-[400px] cursor-pointer relative"
       onMouseEnter={() => setFlipped(true)}
       onMouseLeave={() => setFlipped(false)}
-      onClick={() => setFlipped(!flipped)}
+      onClick={() => { setFlipped(!flipped); onCardClick?.(); }}
     >
       <Canvas camera={{ position: [0, 0, 5], fov: 40 }}>
         <ambientLight intensity={0.6} />

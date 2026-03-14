@@ -143,13 +143,13 @@ export default function Menu() {
             <div
               key={cat.name}
               className="menu-card-anim cursor-pointer"
-              onClick={() => handleCardClick(cat)}
             >
               <MenuCard3D
                 name={cat.name}
                 image={cat.image}
                 items={cat.items}
                 frontColor={cat.frontColor}
+                onCardClick={() => handleCardClick(cat)}
               />
             </div>
           ))}
