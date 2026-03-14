@@ -142,7 +142,7 @@ export default function Menu() {
           {menuCategories.map((cat) => (
             <div
               key={cat.name}
-              className="menu-card-anim cursor-pointer"
+              className="menu-card-anim md:cursor-pointer"
             >
               <MenuCard3D
                 name={cat.name}

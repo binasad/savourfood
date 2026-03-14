@@ -133,21 +133,23 @@ export default function DishDetail({ name, image, video, items, accent, onClose 
     };
   }, []);
 
-  // Smooth wheel scrolling — Lenis blocks native scroll, so we manually handle it
+  // Smooth scrolling — Lenis blocks native scroll, so we manually handle wheel + touch
   useEffect(() => {
     const scroller = scrollRef.current;
     if (!scroller) return;
 
     let scrollTarget = 0;
     let animFrame: number;
+    let touchStartY = 0;
+    let touchLastY = 0;
+
+    const clampScroll = (val: number) =>
+      Math.max(0, Math.min(scroller.scrollHeight - scroller.clientHeight, val));
 
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      scrollTarget = Math.max(0, Math.min(
-        scroller.scrollHeight - scroller.clientHeight,
-        scroller.scrollTop + e.deltaY * 1.5
-      ));
+      scrollTarget = clampScroll(scroller.scrollTop + e.deltaY * 1.5);
       cancelAnimationFrame(animFrame);
       animFrame = requestAnimationFrame(() => {
         gsap.to(scroller, {
@@ -159,9 +161,40 @@ export default function DishDetail({ name, image, video, items, accent, onClose 
       });
     };
 
+    const onTouchStart = (e: TouchEvent) => {
+      touchStartY = e.touches[0].clientY;
+      touchLastY = touchStartY;
+      scrollTarget = scroller.scrollTop;
+      gsap.killTweensOf(scroller);
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      e.preventDefault();
+      const currentY = e.touches[0].clientY;
+      const deltaY = touchLastY - currentY;
+      touchLastY = currentY;
+      scrollTarget = clampScroll(scrollTarget + deltaY * 1.8);
+      gsap.to(scroller, {
+        scrollTop: scrollTarget,
+        duration: 0.3,
+        ease: "power2.out",
+        overwrite: true,
+      });
+    };
+
+    const onTouchEnd = () => {
+      // momentum is handled by the gsap tween already in progress
+    };
+
     scroller.addEventListener("wheel", onWheel, { passive: false });
+    scroller.addEventListener("touchstart", onTouchStart, { passive: true });
+    scroller.addEventListener("touchmove", onTouchMove, { passive: false });
+    scroller.addEventListener("touchend", onTouchEnd, { passive: true });
     return () => {
       scroller.removeEventListener("wheel", onWheel);
+      scroller.removeEventListener("touchstart", onTouchStart);
+      scroller.removeEventListener("touchmove", onTouchMove);
+      scroller.removeEventListener("touchend", onTouchEnd);
       cancelAnimationFrame(animFrame);
     };
   }, []);

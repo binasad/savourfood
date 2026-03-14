@@ -46,7 +46,7 @@ export default function MenuCard3D({ name, image, items, frontColor = "#2a1530",
 
   return (
     <div
-      className="h-[320px] md:h-[400px] cursor-pointer relative"
+      className="h-[320px] md:h-[400px] md:cursor-pointer relative"
       onMouseEnter={() => setFlipped(true)}
       onMouseLeave={() => setFlipped(false)}
       onClick={() => { setFlipped(!flipped); onCardClick?.(); }}
