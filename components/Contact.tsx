@@ -6,11 +6,11 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const details = [
+  { label: "Developer", value: "Saad Bin Asad" },
+  { label: "Phone", value: "0312-7000-786" },
+  { label: "Email", value: "saadbinasadaarbi1@gmail.com" },
   { label: "Location", value: "Gordon College Road, Rawalpindi" },
   { label: "Hours", value: "Daily: 3:00 PM - 12:30 AM" },
-  { label: "UAN", value: "051-111-728-687" },
-  { label: "WhatsApp", value: "0300-0728-687" },
-  { label: "Email", value: "delivery@savourfoods.com.pk" },
 ];
 
 export default function Contact() {
