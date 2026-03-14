@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+@theme {
+  --color-purple: #91288c;
+  --color-purple-dark: #1a0a1a;
+  --color-purple-deeper: #0f050f;
+  --color-pink: #ec1164;
+  --color-gold: #f3dfac;
+  --color-gold-dark: #c9a84c;
+  --color-cream: #f5f0e8;
+  --color-dark: #1a0a1a;
+  --color-dark-light: #221222;
+  --color-dark-card: #2a1530;
+  --font-heading: "Playfair Display", serif;
+  --font-body: "DM Sans", sans-serif;
+}
+
+/* Lenis */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+
+html {
+  scroll-behavior: auto;
+  overflow-x: clip !important;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--color-dark);
+  color: var(--color-cream);
+  overflow-x: clip !important;
+  overscroll-behavior-x: none;
+}
+
+/* Scroll line animation */
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(0.5); }
+  50% { opacity: 1; transform: scaleY(1); }
+}
+
+.scroll-line {
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+/* Menu card flip */
+.menu-card-inner {
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+.menu-card:hover .menu-card-inner {
+  transform: rotateY(180deg);
+}
+.card-face {
+  backface-visibility: hidden;
+}
+.card-back {
+  transform: rotateY(180deg);
+}
+
+/* Form floating labels */
+.form-group input:focus ~ label,
+.form-group input:not(:placeholder-shown) ~ label,
+.form-group textarea:focus ~ label,
+.form-group textarea:not(:placeholder-shown) ~ label {
+  top: -0.8rem;
+  font-size: 0.7rem;
+  color: var(--color-gold);
+  letter-spacing: 0.1em;
+}
+
+/* Submit button fill */
+.submit-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--color-purple);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: -1;
+}
+.submit-btn:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Hero character animations */
+.hero-char {
+  will-change: transform, opacity;
+  display: inline-block;
+}
+
+.hero-title {
+  perspective: 800px;
+}
+
+/* GSAP pin spacer */
+.pin-spacer { overflow: visible !important; }
+
+/* Subtle grain texture overlay */
+.grain-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+}
